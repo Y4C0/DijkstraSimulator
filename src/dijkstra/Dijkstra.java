@@ -75,6 +75,7 @@ public class Dijkstra
 
 	public String toString()
 	{
+		System.out.println("check if worked");
 		StringBuilder b = new StringBuilder(); // Build a string using StringBuilder
 		for (int i = 0; i < height; i++)
 		{
