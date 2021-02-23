@@ -5,10 +5,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,6 +19,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -43,6 +47,15 @@ public class DijkstraController extends Application
 
 	@FXML
 	private Button btnEnd;
+
+	@FXML
+	private VBox menu;
+
+	@FXML
+	private Label instructions;
+
+	@FXML
+	private CheckBox checkBox;
 
 	private Stage prime;
 	private DijkstraController controller;
@@ -98,16 +111,18 @@ public class DijkstraController extends Application
 				gridPane.add(b, i, j);
 			}
 		}
-
 	}
 
 	@FXML
 	void findPath(ActionEvent event)
 	{
+		if (checkBox.isSelected())
+			d.setDiagonalWaysTrue();
+		else {
+			d.setDiagonalWaysFalse();
+		}
 		d.findPath();
 		gridPane.getChildren().clear();
-//		d.setStart(2, 1);
-//		d.setEnd(7, 7);
 		for (int i = 0; i < this.size; i++)
 		{
 			for (int j = 0; j < this.size; j++)
@@ -157,9 +172,12 @@ public class DijkstraController extends Application
 			} else
 			{
 				controller.gridPane.getChildren().clear();
-				prime.setHeight(size * 45 + 90);
+//				controller.menu.setPrefWidth(size * 40);
+				controller.menu.setAlignment(Pos.CENTER);
+				prime.setHeight(size * 45 + 115);
 				prime.setWidth(size * 45);
 				controller.flag = 1;
+				controller.instructions.setText("Choose start vertex.");
 				controller.setMatrix(size);
 			}
 		}
@@ -178,11 +196,13 @@ public class DijkstraController extends Application
 					d.setStart(i, j);
 					buttons[i][j].setText(d.get(i, j));
 					flag = 2;
+					instructions.setText("Choose end vertex.");
 				} else if (flag == 2)
 				{
 					d.setEnd(i, j);
 					buttons[i][j].setText(d.get(i, j));
 					flag = 0;
+					instructions.setText("Click on \"Find path\" button.");
 				}
 		});
 

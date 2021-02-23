@@ -10,6 +10,7 @@ public class Dijkstra
 	private MinHeapNode heap;
 	private int endx, endy;
 	private ArrayList<Node> list = new ArrayList<Node>(); // Creating arraylist.
+	boolean allowDiagonalWays = false;
 
 	public Dijkstra(int height, int width)
 	{
@@ -126,6 +127,16 @@ public class Dijkstra
 
 	}
 
+	public void setDiagonalWaysTrue()
+	{
+		allowDiagonalWays = true;
+	}
+	
+	public void setDiagonalWaysFalse()
+	{
+		allowDiagonalWays = false;
+	}
+
 	public ArrayList<Node> neighbors(Node n)
 	{
 		ArrayList<Node> vertices = new ArrayList<>();
@@ -140,14 +151,17 @@ public class Dijkstra
 			vertices.add(matrix[x][y + 1]); // add neighbor from the right
 		if (x < matrix.length - 1 && !matrix[x + 1][y].visited)
 			vertices.add(matrix[x + 1][y]); // add neighbor from below
-//		if (y > 0 && x > 0 && !matrix[x - 1][y - 1].visited)
-//			vertices.add(matrix[x - 1][y - 1]); // add neighbor from the above-left
-//		if (y < matrix.length - 1 && x > 0 && !matrix[x - 1][y + 1].visited)
-//			vertices.add(matrix[x - 1][y + 1]); // add neighbor from the above-right
-//		if (y > 0 && x < matrix.length - 1 && !matrix[x + 1][y - 1].visited)
-//			vertices.add(matrix[x + 1][y - 1]); // add neighbor from the below-left
-//		if (y < matrix.length - 1 && x < matrix.length - 1 && !matrix[x + 1][y + 1].visited)
-//			vertices.add(matrix[x + 1][y + 1]); // add neighbor from the below-right
+		if (allowDiagonalWays == true)
+		{
+			if (y > 0 && x > 0 && !matrix[x - 1][y - 1].visited)
+				vertices.add(matrix[x - 1][y - 1]); // add neighbor from the above-left
+			if (y < matrix.length - 1 && x > 0 && !matrix[x - 1][y + 1].visited)
+				vertices.add(matrix[x - 1][y + 1]); // add neighbor from the above-right
+			if (y > 0 && x < matrix.length - 1 && !matrix[x + 1][y - 1].visited)
+				vertices.add(matrix[x + 1][y - 1]); // add neighbor from the below-left
+			if (y < matrix.length - 1 && x < matrix.length - 1 && !matrix[x + 1][y + 1].visited)
+				vertices.add(matrix[x + 1][y + 1]); // add neighbor from the below-right
+		}
 		return vertices;
 	}
 
