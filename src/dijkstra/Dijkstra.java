@@ -162,16 +162,16 @@ public class Dijkstra
 
 	}
 
-	public static void main(String[] args)
-	{
-		Dijkstra d = new Dijkstra(8, 8);
-		d.setStart(2, 1);
-		d.setEnd(7, 7);
-		System.out.println(d.toString());
-		d.findPath();
-		System.out.println(d.toString());
-
-		d.printAnswer();
-	}
+//	public static void main(String[] args)
+//	{
+//		Dijkstra d = new Dijkstra(8, 8);
+//		d.setStart(2, 1);
+//		d.setEnd(7, 7);
+//		System.out.println(d.toString());
+//		d.findPath();
+//		System.out.println(d.toString());
+//
+//		d.printAnswer();
+//	}
 
 }

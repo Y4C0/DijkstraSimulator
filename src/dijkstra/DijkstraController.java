@@ -1,7 +1,5 @@
 package dijkstra;
 
-import org.w3c.dom.events.MouseEvent;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,7 +19,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class DijkstraController extends Application {
+public class DijkstraController extends Application
+{
 	public static Stage homeStage;
 
 	@FXML
@@ -39,17 +38,25 @@ public class DijkstraController extends Application {
 	@FXML
 	private TextField fldSize;
 
+	@FXML
+	private Button btnStart;
+
+	@FXML
+	private Button btnEnd;
+
 	private Stage prime;
 	private DijkstraController controller;
 	private GridPane gridPane;
 	private Dijkstra d;
 	private int size;
-	private int flag = 0;
-	private Button[][] buttons;
+	private int flag = 1;
+	private Button buttons[][];
 
 	@Override
-	public void start(Stage primaryStage) throws Exception {
-		try {
+	public void start(Stage primaryStage) throws Exception
+	{
+		try
+		{
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/dijkstra/DijkstraFX.fxml"));
 			mainAnchor = loader.load();
@@ -64,53 +71,56 @@ public class DijkstraController extends Application {
 			prime.setScene(scene);
 //			prime.getIcons().add(new Image("mines/icon.png"));
 			prime.show();
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		launch(args);
 	}
 
-	public void setMatrix(int size) {
+	public void setMatrix(int size)
+	{
 		buttons = new Button[size][size];
 		this.size = size;
 		d = new Dijkstra(size, size);
 		gridPane = new GridPane();
+		buttons = new Button[size][size];
 		anchor.getChildren().add(gridPane);
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
+		for (int i = 0; i < size; i++)
+		{
+			for (int j = 0; j < size; j++)
+			{
 				Button b = makeButton(i, j, size);
+				gridPane.add(b, i, j);
 			}
 		}
-		setStart();
-		setEnd();
-	}
-
-	void setStart() {
-
-	}
-
-	void setEnd() {
 
 	}
 
 	@FXML
-	void findPath(ActionEvent event) {
+	void findPath(ActionEvent event)
+	{
 		d.findPath();
 		gridPane.getChildren().clear();
-		d.setStart(2, 1);
-		d.setEnd(7, 7);
-		for (int i = 0; i < this.size; i++) {
-			for (int j = 0; j < this.size; j++) {
-				if (d.get(i, j).equals("N")) {
+//		d.setStart(2, 1);
+//		d.setEnd(7, 7);
+		for (int i = 0; i < this.size; i++)
+		{
+			for (int j = 0; j < this.size; j++)
+			{
+				if (d.get(i, j).equals("N"))
+				{
 					Button c = new Button("");
 					c.setFont(new Font("Calibri", 22));
 					c.setPrefSize(45, 45);
 					c.setStyle("-fx-background-color: white;");
 					gridPane.add(c, i, j);
-				} else {
+				} else
+				{
 					Button b = new Button(d.get(i, j));
 					b.setFont(new Font("Calibri", 22));
 					b.setPrefSize(45, 45);
@@ -120,18 +130,22 @@ public class DijkstraController extends Application {
 		}
 	}
 
-	class Reset implements EventHandler<ActionEvent> {
+	class Reset implements EventHandler<ActionEvent>
+	{
 		private DijkstraController controller;
 
-		public Reset(DijkstraController controller) {
+		public Reset(DijkstraController controller)
+		{
 			this.controller = controller; // Get controller after reset
 		}
 
 		@Override
-		public void handle(ActionEvent event) {
+		public void handle(ActionEvent event)
+		{
 			int size = Integer.parseInt(controller.fldSize.getText());
 
-			if (size <= 0) {
+			if (size <= 0)
+			{
 				Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Error");
 				alert.setHeaderText(null);
@@ -140,31 +154,36 @@ public class DijkstraController extends Application {
 				ImageView imageView = new ImageView(image);
 				alert.setGraphic(imageView);
 				alert.show();
-			} else {
+			} else
+			{
 				controller.gridPane.getChildren().clear();
 				prime.setHeight(size * 45 + 90);
 				prime.setWidth(size * 45);
-				flag = 1;
+				controller.flag = 1;
 				controller.setMatrix(size);
 			}
 		}
 	}
 
-	private Button makeButton(int i, int j, int size) {
+	private Button makeButton(int i, int j, int size)
+	{
 		buttons[i][j] = new Button(d.get(i, j));
 		buttons[i][j].setFont(new Font("Calibri", 22));
 		buttons[i][j].setPrefSize(45, 45);
-		gridPane.add(buttons[i][j], i, j);
-		buttons[i][j].setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				if (event.getButton() == MouseButton.PRIMARY)
-					if (flag == 1) {
-						d.setStart(i, j);
-						flag = 2;
-					} else if (flag == 2)
-						flag = 0;
-			}
+		buttons[i][j].setOnMouseClicked(event ->
+		{
+			if (event.getButton() == MouseButton.PRIMARY)
+				if (flag == 1)
+				{
+					d.setStart(i, j);
+					buttons[i][j].setText(d.get(i, j));
+					flag = 2;
+				} else if (flag == 2)
+				{
+					d.setEnd(i, j);
+					buttons[i][j].setText(d.get(i, j));
+					flag = 0;
+				}
 		});
 
 		return buttons[i][j];
