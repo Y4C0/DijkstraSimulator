@@ -140,14 +140,14 @@ public class Dijkstra
 			vertices.add(matrix[x][y + 1]); // add neighbor from the right
 		if (x < matrix.length - 1 && !matrix[x + 1][y].visited)
 			vertices.add(matrix[x + 1][y]); // add neighbor from below
-		if (y > 0 && x > 0 && !matrix[x - 1][y - 1].visited)
-			vertices.add(matrix[x - 1][y - 1]); // add neighbor from the above-left
-		if (y < matrix.length - 1 && x > 0 && !matrix[x - 1][y + 1].visited)
-			vertices.add(matrix[x - 1][y + 1]); // add neighbor from the above-right
-		if (y > 0 && x < matrix.length - 1 && !matrix[x + 1][y - 1].visited)
-			vertices.add(matrix[x + 1][y - 1]); // add neighbor from the below-left
-		if (y < matrix.length - 1 && x < matrix.length - 1 && !matrix[x + 1][y + 1].visited)
-			vertices.add(matrix[x + 1][y + 1]); // add neighbor from the below-right
+//		if (y > 0 && x > 0 && !matrix[x - 1][y - 1].visited)
+//			vertices.add(matrix[x - 1][y - 1]); // add neighbor from the above-left
+//		if (y < matrix.length - 1 && x > 0 && !matrix[x - 1][y + 1].visited)
+//			vertices.add(matrix[x - 1][y + 1]); // add neighbor from the above-right
+//		if (y > 0 && x < matrix.length - 1 && !matrix[x + 1][y - 1].visited)
+//			vertices.add(matrix[x + 1][y - 1]); // add neighbor from the below-left
+//		if (y < matrix.length - 1 && x < matrix.length - 1 && !matrix[x + 1][y + 1].visited)
+//			vertices.add(matrix[x + 1][y + 1]); // add neighbor from the below-right
 		return vertices;
 	}
 
