@@ -119,43 +119,46 @@ public class DijkstraController extends Application
 		if (checkBox.isSelected())
 			d.setDiagonalWaysTrue();
 		else
-		{
 			d.setDiagonalWaysFalse();
-		}
-		d.findPath();
-		gridPane.getChildren().clear();
-		for (int i = 0; i < this.size; i++)
+		if (flag != 0)
+			alert("Error", "You must choose start and end nodes.");
+		else
 		{
-			for (int j = 0; j < this.size; j++)
+			d.findPath();
+			gridPane.getChildren().clear();
+			for (int i = 0; i < this.size; i++)
 			{
-				if (d.get(i, j).equals("N"))
+				for (int j = 0; j < this.size; j++)
 				{
-					Button c = new Button("");
-					c.setFont(new Font("Calibri", 22));
-					c.setPrefSize(45, 45);
-					c.setStyle("-fx-background-color: white;");
-					gridPane.add(c, i, j);
-				} else if (d.get(i, j).equals("S") || d.get(i, j).equals("E"))
-				{
-					Button c;
-					if (d.get(i, j).equals("S"))
-						c = new Button("S");
-					else
-						c = new Button("E");
-					c.setFont(new Font("Calibri", 22));
-					c.setPrefSize(45, 45);
-					c.setStyle("-fx-background-color: white;");
-					gridPane.add(c, i, j);
-				} else
-				{
-					Button b = new Button(d.get(i, j));
-					b.setFont(new Font("Calibri", 22));
-					b.setPrefSize(45, 45);
-					gridPane.add(b, i, j);
+					if (d.get(i, j).equals("N"))
+					{
+						Button c = new Button("");
+						c.setFont(new Font("Calibri", 22));
+						c.setPrefSize(45, 45);
+						c.setStyle("-fx-background-color: white;");
+						gridPane.add(c, i, j);
+					} else if (d.get(i, j).equals("S") || d.get(i, j).equals("E"))
+					{
+						Button c;
+						if (d.get(i, j).equals("S"))
+							c = new Button("S");
+						else
+							c = new Button("E");
+						c.setFont(new Font("Calibri", 22));
+						c.setPrefSize(45, 45);
+						c.setStyle("-fx-background-color: white;");
+						gridPane.add(c, i, j);
+					} else
+					{
+						Button b = new Button(d.get(i, j));
+						b.setFont(new Font("Calibri", 22));
+						b.setPrefSize(45, 45);
+						gridPane.add(b, i, j);
+					}
 				}
 			}
+			instructions.setText("The shortest way has been found!");
 		}
-		instructions.setText("The shortest way has been found!");
 	}
 
 	class Reset implements EventHandler<ActionEvent>
@@ -222,5 +225,14 @@ public class DijkstraController extends Application
 		});
 
 		return buttons[i][j];
+	}
+
+	public void alert(String title, String message)
+	{
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.show();
 	}
 }
