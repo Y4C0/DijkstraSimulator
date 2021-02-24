@@ -118,7 +118,8 @@ public class DijkstraController extends Application
 	{
 		if (checkBox.isSelected())
 			d.setDiagonalWaysTrue();
-		else {
+		else
+		{
 			d.setDiagonalWaysFalse();
 		}
 		d.findPath();
@@ -134,6 +135,17 @@ public class DijkstraController extends Application
 					c.setPrefSize(45, 45);
 					c.setStyle("-fx-background-color: white;");
 					gridPane.add(c, i, j);
+				} else if (d.get(i, j).equals("S") || d.get(i, j).equals("E"))
+				{
+					Button c;
+					if (d.get(i, j).equals("S"))
+						c = new Button("S");
+					else
+						c = new Button("E");
+					c.setFont(new Font("Calibri", 22));
+					c.setPrefSize(45, 45);
+					c.setStyle("-fx-background-color: white;");
+					gridPane.add(c, i, j);
 				} else
 				{
 					Button b = new Button(d.get(i, j));
@@ -143,6 +155,7 @@ public class DijkstraController extends Application
 				}
 			}
 		}
+		instructions.setText("The shortest way has been found!");
 	}
 
 	class Reset implements EventHandler<ActionEvent>
@@ -195,12 +208,14 @@ public class DijkstraController extends Application
 				{
 					d.setStart(i, j);
 					buttons[i][j].setText(d.get(i, j));
+					buttons[i][j].setStyle("-fx-background-color: white;");
 					flag = 2;
 					instructions.setText("Choose end vertex.");
 				} else if (flag == 2)
 				{
 					d.setEnd(i, j);
 					buttons[i][j].setText(d.get(i, j));
+					buttons[i][j].setStyle("-fx-background-color: white;");
 					flag = 0;
 					instructions.setText("Click on \"Find path\" button.");
 				}
